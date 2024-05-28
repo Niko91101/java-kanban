@@ -27,6 +27,4 @@ public class Subtask extends Task{
                 ", status=" + status +
                 '}';
     }
-    //(String nameTask, String descriptionTask, Integer idTask, StatusTask status)
-
 }
