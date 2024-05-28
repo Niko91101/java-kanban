@@ -30,36 +30,21 @@ public class Main {
         int Subtask2Id = taskManager.addSubtask(subtask2);
 
 
-
-/*
-//        System.out.println(taskManager.tasks);
-//        taskManager.deleteTasks();
-//        System.out.println(taskManager.tasks);
-//
-//        System.out.println(taskManager.epics);
-//        taskManager.deleteEpics();
-//        System.out.println(taskManager.epics);
-//
-//        System.out.println(taskManager.subtasks);
-//        taskManager.deleteSubtasks();
-//        System.out.println(taskManager.subtasks);
-
-*/
-
-/*        System.out.println(taskManager.getAllTasks());
+        // печать списка задач, эпиков и подзачад
+        System.out.println(taskManager.getAllTasks());
         System.out.println(taskManager.getAllEpics());
-        System.out.println(taskManager.getAllSubtasks());*/
-
-    /*    System.out.println(taskManager.getAllEpics());
-
-        System.out.println(taskManager.getSubtasksFromEpic(epic1));
-
-*/
-        System.out.println(epic1);
+        System.out.println(taskManager.getAllSubtasks());
 
 
+        // изменение статуса подзадачи и проверка изменения статуса эпика
+        subtask1.setStatus(StatusTask.DONE);
+        subtask2.setStatus(StatusTask.IN_PROGRESS);
+        System.out.println(epic1.getStatus());
 
-
+        //удаление одной из задач
+        taskManager.deleteEpicId(epic1.getIdTask());
+        System.out.println(taskManager.getAllEpics());
+        System.out.println(taskManager.getAllSubtasks());
 
     }
 }
