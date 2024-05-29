@@ -1,5 +1,11 @@
+package controllers;
+
+import models.Epic;
+import models.StatusTask;
+import models.Subtask;
+import models.Task;
+
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -30,6 +36,7 @@ public class TaskManager {
 
     public void deleteEpics() {
         epics.clear();
+        subtasks.clear();
     }
 
 

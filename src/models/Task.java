@@ -1,9 +1,11 @@
+package models;
+
 public class Task {
 
-    String nameTask;
-    String descriptionTask;
-    Integer idTask;
-    StatusTask status;
+    private String nameTask;
+    private String descriptionTask;
+    private Integer idTask;
+    private StatusTask status;
 
     public Task() {}
 
@@ -12,6 +14,12 @@ public class Task {
         this.descriptionTask = descriptionTask;
         this.idTask = idTask;
         this.status = status;
+    }
+
+    public Task(String nameTask, String descriptionTask, Integer idTask) {
+        this.nameTask = nameTask;
+        this.descriptionTask = descriptionTask;
+        this.idTask = idTask;
     }
 
     public String getNameTask() {
@@ -48,7 +56,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "models.Task{" +
                 "nameTask='" + nameTask + '\'' +
                 ", descriptionTask='" + descriptionTask + '\'' +
                 ", idTask=" + idTask +

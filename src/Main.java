@@ -1,3 +1,9 @@
+import controllers.TaskManager;
+import models.Epic;
+import models.StatusTask;
+import models.Subtask;
+import models.Task;
+
 import java.util.ArrayList;
 
 public class Main {
@@ -5,8 +11,6 @@ public class Main {
     public static void main(String[] args) {
         TaskManager taskManager = new TaskManager();
 
-        Task task = new Task();
-        Epic epic = new Epic();
         Subtask subtask = new Subtask();
 
         Task task1 = new Task("Поиграть в футбол", "Завтра в 15,00", 0, StatusTask.NEW);
@@ -16,7 +20,7 @@ public class Main {
         int task2Id = taskManager.addTask(task2);
 
 
-        Epic epic1 = new Epic("Завершить этот год удачно", "Планы на год", 0, StatusTask.NEW,
+        Epic epic1 = new Epic("Завершить этот год удачно", "Планы на год", 0,
                 new ArrayList<>());
         int epic1Id = taskManager.addEpic(epic1);
 
@@ -48,3 +52,4 @@ public class Main {
 
     }
 }
+
