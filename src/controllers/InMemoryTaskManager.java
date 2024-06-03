@@ -13,8 +13,6 @@ import java.util.List;
 public class InMemoryTaskManager implements TaskManager {
     public Integer id = 0;
 
-    //WARNING
-    private final List<Task> historyWatching = new ArrayList<>();
 
     public HashMap<Integer, Task> tasks = new HashMap<>();
     public HashMap<Integer, Subtask> subtasks = new HashMap<>();

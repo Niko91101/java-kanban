@@ -11,12 +11,13 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) {
-        TaskManager manager = Managers.getDefault();
 
+        TaskManager manager = Managers.getDefault();
 
 
         Task task1 = new Task("Поиграть в футбол", "Завтра в 15,00", 0, StatusTask.NEW);
         int task1Id = manager.addTask(task1);
+
 
         Task task2 = new Task("Закончить это ТЗ", "Желательно завтра", 0, StatusTask.NEW);
         int task2Id = manager.addTask(task2);
@@ -30,6 +31,7 @@ public class Main {
         Subtask subtask1 = new Subtask("Успешно сдать ТЗ № 4", "Сейчас на верном пути", 0,
                 StatusTask.IN_PROGRESS, epic1Id);
         int subtask1Id = manager.addSubtask(subtask1);
+
 
         Subtask subtask2 = new Subtask("Успешно сдать ТЗ № 5", "Думаю там лютый пиздарез", 0,
                 StatusTask.DONE, epic1Id);
@@ -53,23 +55,7 @@ public class Main {
 
 
         printAllTasks(manager);
-
-
-/*
-        // изменение статуса подзадачи и проверка изменения статуса эпика
-        subtask1.setStatus(StatusTask.DONE);
-        subtask2.setStatus(StatusTask.IN_PROGRESS);
-        System.out.println(epic1.getStatus());
-
-        //удаление одной из задач
-        manager.deleteEpicId(epic1.getIdTask());
-        System.out.println(manager.getAllEpics());
-        System.out.println(manager.getAllSubtasks());
-*/
-
-
-
-
+        System.out.println(manager.getHistory().size());
     }
 
     private static  void printAllTasks(TaskManager manager) {
