@@ -46,7 +46,7 @@ public class Task {
         this.descriptionTask = descriptionTask;
     }
 
-    public int getIdTask() {
+    public Integer getIdTask() {
         return idTask;
     }
 
