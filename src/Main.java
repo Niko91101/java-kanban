@@ -33,7 +33,7 @@ public class Main {
         int subtask1Id = manager.addSubtask(subtask1);
 
 
-        Subtask subtask2 = new Subtask("Успешно сдать ТЗ № 5", "Думаю там лютый пиздарез", 0,
+        Subtask subtask2 = new Subtask("Успешно сдать ТЗ № 5", "В процессе", 0,
                 StatusTask.DONE, epic1Id);
         int Subtask2Id = manager.addSubtask(subtask2);
 
@@ -55,7 +55,6 @@ public class Main {
 
 
         printAllTasks(manager);
-        System.out.println(manager.getHistory().size());
     }
 
     private static  void printAllTasks(TaskManager manager) {
