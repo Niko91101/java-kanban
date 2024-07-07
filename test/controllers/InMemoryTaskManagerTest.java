@@ -10,6 +10,8 @@ import models.Task;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -265,25 +267,13 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void getHistory() {
-        assertTrue(manager.getHistory().isEmpty(), "Список истории задач не пуст");
+    public void historyDuplication() {
         manager.getTaskById(testTask1Id);
-        manager.getSubtaskById(testSubtask1Id);
-        manager.getEpicById(testEpicId);
         manager.getTaskById(testTask1Id);
-        manager.getEpicById(testEpicId);
-        manager.getEpicById(testEpicId);
-        manager.getEpicById(testEpicId);
-        manager.getEpicById(testEpicId);
-        manager.getEpicById(testEpicId);
-        manager.getEpicById(testEpicId);
-        manager.getEpicById(testEpicId);
 
-
-        assertEquals(10, manager.getHistory().size(), "Количество задач не совпадает");
-        assertEquals(testSubtask1, manager.getHistory().get(0),
-                "Первая задача в истории задач не соотвествует");
-
+        List<Task> history = manager.getHistory();
+        assertNotEquals(Collections.emptyList(), history, "История пуста.");
+        assertEquals(1, history.size(), "Дубль в истории.");
 
     }
 }

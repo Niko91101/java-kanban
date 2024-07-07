@@ -1,26 +1,81 @@
 package controllers;
 
+import models.Node;
 import models.Task;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private final ArrayList<Task> historyWatching = new ArrayList<>();
-    private final static int SIZE = 10;
-    @Override
-    public void add(Task task) {
-        if(task != null) {
-            if(historyWatching.size() == SIZE) {
-                historyWatching.remove(historyWatching.get(0));
+    private Node first;
+    private Node last;
+
+    private final Map<Integer, Node> nodes = new HashMap<>();
+
+
+    private void linkLast(Task task) {
+        Node newNode = new Node(last, task, null);
+        if (first == null) {
+            first = newNode;
+        } else {
+            last.next = newNode;
+        }
+        last = newNode;
+    }
+
+    public List<Task> getTasks() {
+        List<Task> history = new ArrayList<>();
+        Node curNode = first;
+        while (curNode != null) {
+            history.add(curNode.task);
+            curNode = curNode.next;
+        }
+        return history;
+    }
+
+    public void removeNode(int id) {
+        Node node = nodes.remove(id);
+        if (node == null) {
+            return;
+        }
+        if (node.prev == null) {
+            first = first.next;
+            if (first == null) {
+                last = null;
+            } else {
+                first.prev = null;
             }
-            historyWatching.add(task);
+        } else if (node.next == null) {
+            last = last.prev;
+            last.next = null;
+        } else {
+            node.prev.next = node.next;
+            node.next.prev = node.prev;
         }
     }
+
+
+    @Override
+    public void add(Task task) {
+        ///удаление повторной ноды
+        removeNode(task.getIdTask());
+        linkLast(task);
+        nodes.put(task.getIdTask(), last);
+    }
+
+    @Override
+    public void remove(int id) {
+        removeNode(id);
+    }
+
     @Override
     public List<Task> getHistory() {
-        return List.copyOf(historyWatching);
+        return getTasks();
     }
+
+
 
 }
