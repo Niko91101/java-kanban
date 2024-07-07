@@ -4,8 +4,6 @@ public class Subtask extends Task {
     private Integer epicId;
 
 
-    public Subtask() {}
-
     public Subtask(String nameTask, String descriptionTask, Integer idTask, StatusTask status, Integer epicId) {
         super(nameTask, descriptionTask, idTask, status);
         this.epicId = epicId;
@@ -23,7 +21,7 @@ public class Subtask extends Task {
     public String toString() {
         return "models.Subtask{" +
                 "epicId=" + epicId +
-                ", nameTask='" + getNameTask()+ '\'' +
+                ", nameTask='" + getNameTask() + '\'' +
                 ", descriptionTask='" + getDescriptionTask() + '\'' +
                 ", idTask=" + getIdTask() +
                 ", status=" + getStatus() +

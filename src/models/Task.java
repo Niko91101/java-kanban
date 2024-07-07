@@ -7,7 +7,8 @@ public class Task {
     private Integer idTask;
     private StatusTask status;
 
-    public Task() {}
+    public Task() {
+    }
 
     public Task(String nameTask, String descriptionTask, Integer idTask, StatusTask status) {
         this.nameTask = nameTask;
