@@ -60,7 +60,6 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void add(Task task) {
-        ///удаление повторной ноды
         removeNode(task.getIdTask());
         linkLast(task);
         nodes.put(task.getIdTask(), last);
