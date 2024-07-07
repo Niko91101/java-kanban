@@ -15,7 +15,6 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     private final Map<Integer, Node> nodes = new HashMap<>();
 
-
     private void linkLast(Task task) {
         Node newNode = new Node(last, task, null);
         if (first == null) {
@@ -56,7 +55,6 @@ public class InMemoryHistoryManager implements HistoryManager {
             node.next.prev = node.prev;
         }
     }
-
 
     @Override
     public void add(Task task) {
