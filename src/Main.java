@@ -30,12 +30,10 @@ public class Main {
 
         Subtask subtask1 = new Subtask("Успешно сдать ТЗ № 4", "Сейчас на верном пути", 0,
                 StatusTask.IN_PROGRESS, epic1Id);
-        int subtask1Id = manager.addSubtask(subtask1);
 
 
         Subtask subtask2 = new Subtask("Успешно сдать ТЗ № 5", "В процессе", 0,
                 StatusTask.DONE, epic1Id);
-        int Subtask2Id = manager.addSubtask(subtask2);
 
 
         System.out.println(manager.getEpicById(3));
@@ -57,7 +55,7 @@ public class Main {
         printAllTasks(manager);
     }
 
-    private static  void printAllTasks(TaskManager manager) {
+    private static void printAllTasks(TaskManager manager) {
         System.out.println("Задачи:");
         for (Task task : manager.getAllTasks()) {
             System.out.println(task);
@@ -72,7 +70,8 @@ public class Main {
             System.out.println(subtask);
         }
         System.out.println("История просмотров:");
-        System.out.println(manager.getHistory());;
+        System.out.println(manager.getHistory());
+        ;
 
     }
 }
