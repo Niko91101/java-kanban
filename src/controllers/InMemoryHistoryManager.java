@@ -1,6 +1,5 @@
 package controllers;
 
-import models.Node;
 import models.Task;
 
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         return history;
     }
 
-    public void removeNode(int id) {
+    private void removeNode(int id) {
         Node node = nodes.remove(id);
         if (node == null) {
             return;
@@ -71,6 +70,18 @@ public class InMemoryHistoryManager implements HistoryManager {
     @Override
     public List<Task> getHistory() {
         return getTasks();
+    }
+
+    public class Node {
+        private Task task;
+        private Node prev;
+        private Node next;
+
+        public Node(Node prev, Task task, Node next) {
+            this.prev = prev;
+            this.task = task;
+            this.next = next;
+        }
     }
 
 
