@@ -1,7 +1,6 @@
 package controllers;
 
 import models.Epic;
-import models.StatusTask;
 import models.Subtask;
 import models.Task;
 
@@ -54,7 +53,6 @@ public interface TaskManager {
     ArrayList<Subtask> getAllSubtasks();
 
     ArrayList<Subtask> getSubtasksFromEpic(Epic epic);
-
 
 
 }

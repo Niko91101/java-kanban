@@ -37,7 +37,7 @@ public class EpicStatusTest {
     }
 
     @Test
-    public void statusEpicNewDone()  {
+    public void statusEpicNewDone() {
         Subtask testSubtask1 = new Subtask("ТестСабтаск1", "Сейчас на верном пути", 0,
                 StatusTask.NEW, testEpicId);
         int testSubtask1Id = manager.addSubtask(testSubtask1);
@@ -51,7 +51,7 @@ public class EpicStatusTest {
 
 
     @Test
-    public void statusEpicProgressProgress()  {
+    public void statusEpicProgressProgress() {
         Subtask testSubtask1 = new Subtask("ТестСабтаск1", "Сейчас на верном пути", 0,
                 StatusTask.IN_PROGRESS, testEpicId);
         int testSubtask1Id = manager.addSubtask(testSubtask1);

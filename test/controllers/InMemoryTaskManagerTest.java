@@ -6,10 +6,11 @@ import models.Subtask;
 import models.Task;
 
 
-
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,7 +22,8 @@ class InMemoryTaskManagerTest {
     int testTask1Id = manager.addTask(testTask1);
 
     Task testTask2 = new Task("Тест", "Тест",
-            0, StatusTask.NEW);;
+            0, StatusTask.NEW);
+    ;
     int testTask2Id = manager.addTask(testTask2);
 
 
@@ -36,7 +38,6 @@ class InMemoryTaskManagerTest {
     Subtask testSubtask2 = new Subtask("ТестСабтаск2", "Тест", 0,
             StatusTask.DONE, testEpicId);
     int testSubtaskId2 = manager.addSubtask(testSubtask2);
-
 
 
     @Test
@@ -109,7 +110,7 @@ class InMemoryTaskManagerTest {
         Task upTask1 = manager.getTaskById(testTask1Id);
 
         assertEquals(testTask1, upTask1, "Однотипные таски не совпадают");
-        manager.updateTask(new Task("Тест", "Тест", testTask1Id ,
+        manager.updateTask(new Task("Тест", "Тест", testTask1Id,
                 StatusTask.NEW));
 
         upTask1 = manager.getTaskById(testTask1Id);
@@ -126,7 +127,6 @@ class InMemoryTaskManagerTest {
                 testEpic.getSubtaskId()));
         upEpic = manager.getEpicById(testEpicId);
         assertNotEquals(testEpic, upEpic, "Разные эпики совпадают");
-
 
 
     }
@@ -186,7 +186,7 @@ class InMemoryTaskManagerTest {
             tasksTest.add(task);
         }
         assertEquals(2, tasksTest.size());
-        assertEquals(manager.getTaskById(task1Id),tasksTest.get(0), "Задачи не совпадают");
+        assertEquals(manager.getTaskById(task1Id), tasksTest.get(0), "Задачи не совпадают");
         assertEquals(manager.getTaskById(task2Id), tasksTest.get(1), "Задачи не совпадают");
     }
 
@@ -196,12 +196,12 @@ class InMemoryTaskManagerTest {
         Epic testEpic = new Epic("ТестЭпик", "Тест", 0,
                 new ArrayList<>());
         int testEpicId = manager.addEpic(testEpic);
-        assertEquals(1, manager.getAllEpics().size(),"Неверное количество задач");
+        assertEquals(1, manager.getAllEpics().size(), "Неверное количество задач");
         assertEquals("ТестЭпик", manager.getAllEpics().get(0).getNameTask(),
-                "Имя задачи не совпадает" );
+                "Имя задачи не совпадает");
 
         ArrayList<Epic> testEpics = new ArrayList<>();
-        for(Epic epic : manager.getAllEpics()) {
+        for (Epic epic : manager.getAllEpics()) {
             testEpics.add(epic);
         }
         assertEquals(1, testEpics.size(), "Количество задач неверное");
@@ -265,25 +265,13 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void getHistory() {
-        assertTrue(manager.getHistory().isEmpty(), "Список истории задач не пуст");
+    public void historyDuplication() {
         manager.getTaskById(testTask1Id);
-        manager.getSubtaskById(testSubtask1Id);
-        manager.getEpicById(testEpicId);
         manager.getTaskById(testTask1Id);
-        manager.getEpicById(testEpicId);
-        manager.getEpicById(testEpicId);
-        manager.getEpicById(testEpicId);
-        manager.getEpicById(testEpicId);
-        manager.getEpicById(testEpicId);
-        manager.getEpicById(testEpicId);
-        manager.getEpicById(testEpicId);
 
-
-        assertEquals(10, manager.getHistory().size(), "Количество задач не совпадает");
-        assertEquals(testSubtask1, manager.getHistory().get(0),
-                "Первая задача в истории задач не соотвествует");
-
+        List<Task> history = manager.getHistory();
+        assertNotEquals(Collections.emptyList(), history, "История пуста.");
+        assertEquals(1, history.size(), "Дубль в истории.");
 
     }
 }
