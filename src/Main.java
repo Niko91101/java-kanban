@@ -1,10 +1,7 @@
 
 import controllers.Managers;
 import controllers.TaskManager;
-import models.Epic;
-import models.StatusTask;
-import models.Subtask;
-import models.Task;
+import models.*;
 
 import java.util.ArrayList;
 
@@ -15,24 +12,24 @@ public class Main {
         TaskManager manager = Managers.getDefault();
 
 
-        Task task1 = new Task("Поиграть в футбол", "Завтра в 15,00", 0, StatusTask.NEW);
+        Task task1 = new Task("Поиграть в футбол", TypeOfTask.TASK, "Завтра в 15,00", 0, StatusTask.NEW);
         int task1Id = manager.addTask(task1);
 
 
-        Task task2 = new Task("Закончить это ТЗ", "Желательно завтра", 0, StatusTask.NEW);
+        Task task2 = new Task("Закончить это ТЗ", TypeOfTask.TASK, "Желательно завтра", 0, StatusTask.NEW);
         int task2Id = manager.addTask(task2);
 
 
-        Epic epic1 = new Epic("Завершить этот год удачно", "Планы на год", 0,
+        Epic epic1 = new Epic("Завершить этот год удачно", TypeOfTask.EPIC, StatusTask.NEW, "Планы на год", 0,
                 new ArrayList<>());
         int epic1Id = manager.addEpic(epic1);
 
 
-        Subtask subtask1 = new Subtask("Успешно сдать ТЗ № 4", "Сейчас на верном пути", 0,
+        Subtask subtask1 = new Subtask("Успешно сдать ТЗ № 4", TypeOfTask.SUBTASK, "Сейчас на верном пути", 0,
                 StatusTask.IN_PROGRESS, epic1Id);
 
 
-        Subtask subtask2 = new Subtask("Успешно сдать ТЗ № 5", "В процессе", 0,
+        Subtask subtask2 = new Subtask("Успешно сдать ТЗ № 5", TypeOfTask.SUBTASK, "В процессе", 0,
                 StatusTask.DONE, epic1Id);
 
 
@@ -71,8 +68,6 @@ public class Main {
         }
         System.out.println("История просмотров:");
         System.out.println(manager.getHistory());
-        ;
-
     }
 }
 
