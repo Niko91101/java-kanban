@@ -14,12 +14,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     static File file;
 
-    public FileBackedTaskManager(File file) {
+    private FileBackedTaskManager(File file) {
         this.file = file;
     }
 
     public static void main(String[] args) {
-        TaskManager taskManager = new FileBackedTaskManager(new File("/Users/user/Desktop/test7/newFile.csv"));
+        TaskManager taskManager = new FileBackedTaskManager(new File("java-kanban/src/resources/file.csv"));
 
         System.out.println("Создаем задачи, эпики и подзадачи ");
         Task task1 = new Task(
