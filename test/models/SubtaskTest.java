@@ -1,4 +1,4 @@
-package controllers;
+package models;
 
 import models.Subtask;
 import models.StatusTask;

@@ -13,7 +13,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
 
     @Override
     FileBackedTaskManager createTaskManager() {
-        return new FileBackedTaskManager(new File("test_tasks.csv"));
+        return new FileBackedTaskManager(new File("test/resources/test_tasks.csv"));
     }
 
     @Test
@@ -24,7 +24,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
         taskManager.addTask(task);
 
 
-        FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(new File("test_tasks.csv"));
+        FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(new File("test/resources/test_tasks.csv"));
         Task loadedTask = loadedManager.getTaskById(1);
 
         assertNotNull(loadedTask, "Задача должна быть загружена");
@@ -40,7 +40,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
                 StatusTask.NEW, LocalDateTime.of(2024, 1, 2, 10, 0), Duration.ofHours(2), epic.getIdTask());
         taskManager.addSubtask(subtask);
 
-        FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(new File("test_tasks.csv"));
+        FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(new File("test/resources/test_tasks.csv"));
 
         assertEquals(epic, loadedManager.getEpicById(1));
         assertEquals(subtask, loadedManager.getSubtaskById(2));
@@ -53,7 +53,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
         taskManager.deleteSubtasks();
         taskManager.save();
 
-        FileBackedTaskManager loadedManager = new FileBackedTaskManager(new File("test_tasks.csv"));
+        FileBackedTaskManager loadedManager = new FileBackedTaskManager(new File("test/resources/test_tasks.csv"));
         assertTrue(loadedManager.getAllTasks().isEmpty() &&
                         loadedManager.getAllEpics().isEmpty() &&
                         loadedManager.getAllSubtasks().isEmpty(),
@@ -73,7 +73,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
         taskManager.addTask(task2);
         taskManager.deleteTaskId(1);
 
-        FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(new File("test_tasks.csv"));
+        FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(new File("test/resources/test_tasks.csv"));
 
         assertNull(loadedManager.getTaskById(1));
         assertNotNull(loadedManager.getTaskById(2));

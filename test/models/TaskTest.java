@@ -1,4 +1,4 @@
-package controllers;
+package models;
 import models.Task;
 import models.StatusTask;
 import models.TypeOfTask;

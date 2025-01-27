@@ -1,4 +1,4 @@
-package controllers;
+package models;
 
 import models.Epic;
 import models.StatusTask;

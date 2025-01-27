@@ -5,14 +5,13 @@ import java.util.List;
 import java.time.LocalDateTime;
 
 public class Epic extends Task {
-    private List<Subtask> subtasks;
+
     private ArrayList<Integer> subtaskId;
     private LocalDateTime endTime;
 
 
     public Epic(String nameTask, TypeOfTask type, String descriptionTask, Integer idTask, StatusTask status) {
         super(nameTask, type, descriptionTask, idTask, status);
-        this.subtasks = new ArrayList<>();
     }
 
     public ArrayList<Integer> getSubtaskId() {
