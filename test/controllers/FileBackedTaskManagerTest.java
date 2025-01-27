@@ -23,7 +23,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
 
         taskManager.addTask(task);
 
-        // Создание нового экземпляра, загрузка данных из файла
+
         FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(new File("test_tasks.csv"));
         Task loadedTask = loadedManager.getTaskById(1);
 
