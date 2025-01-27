@@ -198,8 +198,6 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
     }
-
-
     //получение списка всех задач
 
     @Override
@@ -258,6 +256,7 @@ public class InMemoryTaskManager implements TaskManager {
             epic.setStatus(StatusTask.IN_PROGRESS);
         }
     }
+
     private void updateEpicTime(Epic epic) {
         List<Subtask> subtasksList = epic.getSubtaskId().stream()
                 .map(subtasks::get)

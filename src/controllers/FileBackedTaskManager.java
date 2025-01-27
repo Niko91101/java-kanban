@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.LocalDateTime;
+
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private static File file;
@@ -24,7 +25,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 LocalDateTime.of(2023, 1, 1, 10, 0), Duration.ofHours(1)));
         manager.addTask(new Task("Task 2", TypeOfTask.TASK, "Description 2", 2, StatusTask.NEW,
                 LocalDateTime.of(2023, 1, 1, 8, 0), Duration.ofHours(1)));
-//
+
         Epic epic1 = new Epic("Epic Task", TypeOfTask.EPIC, "Epic Description", 3, StatusTask.NEW);
         manager.addEpic(epic1);
 
@@ -36,7 +37,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         manager.addSubtask(subtask1);
         manager.addSubtask(subtask2);
-
 
 
         System.out.println("Проверяем что все что было в старом менеджере, есть в новом \n");
