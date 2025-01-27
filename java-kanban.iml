@@ -6,6 +6,8 @@
       <sourceFolder url="file://$MODULE_DIR$/java-kanban/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/java-kanban/src/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/java-kanban/src/test/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
