@@ -1,12 +1,19 @@
 package models;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class Subtask extends Task {
     private Integer epicId;
 
 
-    public Subtask(String nameTask, TypeOfTask type, String descriptionTask, Integer idTask, StatusTask status, Integer epicId) {
-        super(nameTask, type, descriptionTask, idTask, status);
+    public Subtask(String nameTask, TypeOfTask type, String descriptionTask, Integer idTask, StatusTask status, LocalDateTime startTime, Duration duration, Integer epicId) {
+        super(nameTask, type, descriptionTask, idTask, status, startTime, duration);
         this.epicId = epicId;
+    }
+
+    public Subtask(String nameTask, TypeOfTask type, String descr, Integer id, StatusTask statusTask) {
+        super(nameTask, type, descr, id, statusTask);
     }
 
     public Integer getEpicId() {
@@ -19,13 +26,14 @@ public class Subtask extends Task {
 
     @Override
     public String toString() {
-        return "models.Subtask{" +
+        return "Subtask{" +
                 "epicId=" + epicId +
-                ", type=" + getType() +
-                ", nameTask='" + getNameTask() + '\'' +
-                ", descriptionTask='" + getDescriptionTask() + '\'' +
-                ", idTask=" + getIdTask() +
+                ", name='" + getNameTask() + '\'' +
+                ", description='" + getDescriptionTask() + '\'' +
+                ", id=" + getIdTask() +
                 ", status=" + getStatus() +
+                ", startTime=" + getStartTime() +
+                ", duration=" + getDuration() +
                 '}';
     }
 }

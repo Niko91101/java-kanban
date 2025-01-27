@@ -6,9 +6,8 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-
-import java.util.List;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
@@ -19,41 +18,37 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public static void main(String[] args) {
-        TaskManager taskManager = new FileBackedTaskManager(new File("java-kanban/src/resources/file.csv"));
+        TaskManager manager = new FileBackedTaskManager(new File("src/resources/file.csv"));
 
         System.out.println("Создаем задачи, эпики и подзадачи ");
-        Task task1 = new Task(
-                "Поиграть в футбол", TypeOfTask.TASK, "Завтра в 15,00", 0, StatusTask.NEW);
-        taskManager.addTask(task1);
+        manager.addTask(new Task("Task 1", TypeOfTask.TASK, "Description 1", 1, StatusTask.NEW,
+                LocalDateTime.of(2023, 1, 1, 10, 0), Duration.ofHours(1)));
+        manager.addTask(new Task("Task 2", TypeOfTask.TASK, "Description 2", 2, StatusTask.NEW,
+                LocalDateTime.of(2023, 1, 1, 8, 0), Duration.ofHours(1)));
 
-        Task task2 = new Task(
-                "Закончить это ТЗ", TypeOfTask.TASK, "Желательно завтра", 0, StatusTask.NEW);
-        taskManager.addTask(task2);
+        Epic epic1 = new Epic("Epic Task", TypeOfTask.EPIC, "Epic Description", 3, StatusTask.NEW);
+        manager.addEpic(epic1);
 
-        Epic epic1 = new Epic(
-                "Завершить этот год удачно", TypeOfTask.EPIC, StatusTask.NEW, "Планы на год", 0,
-                new ArrayList<>());
-        int epic1Id = taskManager.addEpic(epic1);
+        Subtask subtask1 = new Subtask("Subtask 1", TypeOfTask.SUBTASK, "Subtask Description 1", 4,
+                StatusTask.NEW, LocalDateTime.of(2025, 1, 20, 12, 0), Duration.ofHours(1), epic1.getIdTask());
+        Subtask subtask2 = new Subtask("Subtask 2", TypeOfTask.SUBTASK, "Subtask Description 2", 5,
+                StatusTask.IN_PROGRESS, LocalDateTime.of(2025, 1, 20, 15, 0), Duration.ofHours(2), epic1.getIdTask());
 
-        Subtask subtask1 = new Subtask(
-                "Успешно сдать ТЗ № 4", TypeOfTask.SUBTASK, "Сейчас на верном пути", 0,
-                StatusTask.IN_PROGRESS, epic1Id);
-        taskManager.addSubtask(subtask1);
-        Subtask subtask2 = new Subtask(
-                "Успешно сдать ТЗ № 5", TypeOfTask.SUBTASK, "В процессе", 0,
-                StatusTask.DONE, epic1Id);
-        taskManager.addSubtask(subtask2);
+
+        manager.addSubtask(subtask1);
+        manager.addSubtask(subtask2);
+
 
         System.out.println("Проверяем что все что было в старом менеджере, есть в новом \n");
 
         try {
-            System.out.println(Files.readString(Path.of("/Users/user/Desktop/test7/newFile.csv")));
+            System.out.println(Files.readString(Path.of("src/resources/file.csv")));
         } catch (IOException exception) {
             System.out.println("sdasdasd");
         }
 
         FileBackedTaskManager fileBackedTaskManager = FileBackedTaskManager.loadFromFile(
-                new File("/Users/user/Desktop/test7/newFile.csv"));
+                new File("src/resources/file.csv"));
 
         System.out.println("Таски: ");
         for (Task task : fileBackedTaskManager.getAllTasks()) {
@@ -84,49 +79,38 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             }
         }
 
-        FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(file);
+        FileBackedTaskManager manager = new FileBackedTaskManager(file);
         try (BufferedReader fileReader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
+            fileReader.readLine();
             while (fileReader.ready()) {
                 String line = fileReader.readLine();
-                if (line.equals("id,type,name,status,description,epic")) {
-                    continue;
-                }
-                Task task = CSVTaskFormat.taskFromString(line);
-
+                Task task = CSVTaskFormat.fromString(line);
                 switch (task.getType()) {
-                    case TASK -> fileBackedTaskManager.addTask(task);
-                    case EPIC -> {
-                        if (task instanceof Epic) {
-                            fileBackedTaskManager.addEpic((Epic) task);
-                        }
-                    }
-                    case SUBTASK -> {
-                        if (task instanceof Subtask) {
-                            fileBackedTaskManager.addSubtask((Subtask) task);
-                        }
-                    }
-                    default -> throw new ManagerException("Неизвестный тип");
+                    case TASK -> manager.addTask(task);
+                    case EPIC -> manager.addEpic((Epic) task);
+                    case SUBTASK -> manager.addSubtask((Subtask) task);
                 }
             }
         } catch (IOException exception) {
-            throw new ManagerException(exception.getMessage());
+            throw new ManagerException("Ошибка при чтении файла: " + exception.getMessage());
         }
-        return fileBackedTaskManager;
+        return manager;
     }
 
     public void save() {
-        List<Task> allTask = new ArrayList<>();
-        allTask.addAll(getAllTasks());
-        allTask.addAll(getAllEpics());
-        allTask.addAll(getAllSubtasks());
-
         try (FileWriter fileWriter = new FileWriter(file, StandardCharsets.UTF_8)) {
-            fileWriter.write("id,type,name,status,description,epic" + "\n");
-            for (Task task : allTask) {
+            fileWriter.write("id,type,name,status,description,startTime,duration,epic \n");
+            for (Task task : getAllTasks()) {
                 fileWriter.write(CSVTaskFormat.toString(task) + "\n");
             }
+            for (Epic epic : getAllEpics()) {
+                fileWriter.write(CSVTaskFormat.toString(epic) + "\n");
+            }
+            for (Subtask subtask : getAllSubtasks()) {
+                fileWriter.write(CSVTaskFormat.toString(subtask) + "\n");
+            }
         } catch (IOException e) {
-            throw new ManagerException("Произошла ошибка во время записи в файл");
+            throw new ManagerException("Ошибка при сохранении файла");
         }
     }
 

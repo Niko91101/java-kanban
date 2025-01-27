@@ -2,47 +2,58 @@ package controllers;
 
 import models.*;
 
-import java.util.ArrayList;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class CSVTaskFormat {
 
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy - HH:mm");
+
     public static String toString(Task task) {
-        String taskToString;
-        taskToString = String.format("%s,%s,%s,%s,%s",
+        String epicId = (task instanceof Subtask) ? String.valueOf(((Subtask) task).getEpicId()) : "";
+        return String.format("%d,%s,%s,%s,%s,%s,%s,%s",
                 task.getIdTask(),
                 task.getType(),
                 task.getNameTask(),
                 task.getStatus(),
-                task.getDescriptionTask()
+                task.getDescriptionTask().replace(",", " "),
+                task.getStartTime() != null ? task.getStartTime().format(FORMATTER) : "",
+                task.getDuration() != null ? task.getDuration().toString() : "",
+                epicId
         );
-        if (task.getType() == TypeOfTask.SUBTASK) {
-            taskToString = taskToString + String.format(",%s", ((Subtask) task).getEpicId());
-        }
-        return taskToString;
     }
 
-    public static Task taskFromString(String value) {
-        final String[] values = value.split(",");
+    public static Task fromString(String line) {
+        System.out.println("Parsing line: " + line);
 
-        final Integer id = Integer.parseInt(values[0]);
-        final TypeOfTask type = TypeOfTask.valueOf(values[1]);
-        final String name = values[2];
-        final StatusTask status = StatusTask.valueOf(values[3]);
-        final String description = values[4];
+        String[] fields = line.split(",");
+        if (fields.length < 7) {
+            throw new IllegalArgumentException("Некорректный формат строки: " + line);
+        }
 
-        if (type == TypeOfTask.TASK) {
-            return new Task(name, type, description, id, status);
-            //(String nameTask, TypeOfTask type, String descriptionTask, Integer idTask, StatusTask status)
+        int id = Integer.parseInt(fields[0].trim());
+        TypeOfTask type = TypeOfTask.valueOf(fields[1].trim());
+        String name = fields[2].trim();
+        StatusTask status = StatusTask.valueOf(fields[3].trim());
+        String description = fields[4].trim();
+
+        LocalDateTime startTime = fields[5].trim().isEmpty() ? null :
+                LocalDateTime.parse(fields[5].trim(), FORMATTER);
+
+        Duration duration = fields[6].trim().isEmpty() ? Duration.ZERO :
+                Duration.parse(fields[6].trim());
+
+        if (type == TypeOfTask.SUBTASK) {
+            if (fields.length < 8) {
+                throw new IllegalArgumentException("Отсутствует поле epicId для подзадачи: " + line);
+            }
+            int epicId = Integer.parseInt(fields[7].trim());
+            return new Subtask(name, type, description, id, status, startTime, duration, epicId);
         } else if (type == TypeOfTask.EPIC) {
-            return new Epic(name, type, status, description, id, new ArrayList<>());
-            //String nameTask, TypeOfTask type,  StatusTask statusTask, String descriptionTask, Integer idTask, ArrayList<Integer> subtaskId
-        } else if (type == TypeOfTask.SUBTASK) {
-            final Integer epicId = Integer.parseInt(values[5]);
-            return new Subtask(name, type, description, id, status, epicId);
-            //String nameTask, TypeOfTask type, String descriptionTask, Integer idTask, StatusTask status, Integer epicId
+            return new Epic(name, type, description, id, status);
+        } else {
+            return new Task(name, type, description, id, status, startTime, duration);
         }
-        return null;
     }
-
-
 }
