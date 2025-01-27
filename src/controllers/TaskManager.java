@@ -52,7 +52,9 @@ public interface TaskManager {
 
     ArrayList<Subtask> getAllSubtasks();
 
-    ArrayList<Subtask> getSubtasksFromEpic(Epic epic);
+    List<Subtask> getSubtasksFromEpic(Epic epic);
+
+    List<Task> getPrioritizedTasks();
 
 
 }
