@@ -1,12 +1,7 @@
 package models;
 
-import models.Epic;
-import models.StatusTask;
-import models.TypeOfTask;
 import org.junit.jupiter.api.Test;
-
 import java.time.LocalDateTime;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class EpicTest {
